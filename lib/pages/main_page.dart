@@ -6,6 +6,8 @@ import '../core/constants.dart';
 import '../widgets/note_grid.dart';
 import '../widgets/note_list.dart';
 import '../widgets/search_field.dart';
+import'package:firebase_auth/firebase_auth.dart';
+import'package:note_app/auth.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -14,32 +16,39 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
+
 class _MainPageState extends State<MainPage> {
   final List<String> dropdownOptions = ["Data modified", "Date created"];
   late String dropdownValue = dropdownOptions.first;
   bool isDescending = true;
   bool isGrid = true;
+  void _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    // Chuyển hướng về trang login
+    Navigator.pushReplacementNamed(context, '/login');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Note App"),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: FaIcon(FontAwesomeIcons.rightFromBracket),
-            style: IconButton.styleFrom(
-              foregroundColor: white,
-              backgroundColor: primary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  side: BorderSide(color: black)),
-            ),
-          )
-        ],
-      ),
-      floatingActionButton: NoteFab(),
+    actions: [
+    IconButton(
+    onPressed: () => _signOut(context),
+    icon: FaIcon(FontAwesomeIcons.rightFromBracket),
+    style: IconButton.styleFrom(
+    foregroundColor: white,
+    backgroundColor: primary,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(12),
+    side: BorderSide(color: black),
+    ),
+    ),
+    )
+    ],),
+
+    floatingActionButton: NoteFab(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
