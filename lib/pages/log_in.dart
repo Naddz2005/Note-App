@@ -9,7 +9,7 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _auth = Auth(); // Sử dụng lớp Auth thực
+  final _auth = Auth();
 
   String _errorMessage = '';
 
