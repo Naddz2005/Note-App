@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:note_app/pages/new_or_edit_note_page.dart';
+import 'package:note_app/widgets/note_icon_button_outlined.dart';
 import '../widgets/note_fab.dart';
 
 import '../core/constants.dart';
@@ -7,7 +9,7 @@ import '../widgets/note_grid.dart';
 import '../widgets/note_list.dart';
 import '../widgets/search_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:note_app/auth.dart';
+import 'package:note_app/sevices/auth.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -34,21 +36,18 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text("Note App"),
         actions: [
-          IconButton(
+          NoteIconButtonOutlined(
+            icon: FontAwesomeIcons.rightFromBracket,
             onPressed: () => _signOut(context),
-            icon: FaIcon(FontAwesomeIcons.rightFromBracket),
-            style: IconButton.styleFrom(
-              foregroundColor: white,
-              backgroundColor: primary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-                side: BorderSide(color: black),
-              ),
-            ),
           )
         ],
       ),
-      floatingActionButton: NoteFab(),
+      floatingActionButton: NoteFab(onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NewOrEditNotePage(isNewNote: true)));
+      }),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
