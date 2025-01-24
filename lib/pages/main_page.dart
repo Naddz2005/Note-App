@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:note_app/pages/new_or_edit_note_page.dart';
@@ -30,7 +31,7 @@ class _MainPageState extends State<MainPage> {
         title: Text("Note App"),
         actions: [
           NoteIconButtonOutlined(
-              icon: FontAwesomeIcons.rightFromBracket, onPressed: () {})
+              icon: FontAwesomeIcons.rightFromBracket, onPressed:(){},)
         ],
       ),
       floatingActionButton: NoteFab(
