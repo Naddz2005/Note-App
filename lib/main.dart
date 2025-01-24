@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:note_app/core/constants.dart';
+import 'package:note_app/pages/log_in.dart';
 import 'package:note_app/pages/main_page.dart';
+import 'package:note_app/pages/sign_up.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +35,12 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: MainPage(),
+      initialRoute: '/login', // Trang đầu tiên khi ứng dụng chạy
+      routes: {
+        '/login': (context) => LogInPage(), // Route trang đăng nhập
+        '/signup': (context) => SignUpPage(), // Route trang đăng ký
+        '/main': (context) => MainPage(), // Route trang MainPage
+      },
     );
   }
 }
