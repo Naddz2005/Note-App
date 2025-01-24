@@ -7,7 +7,7 @@ import '../widgets/note_grid.dart';
 import '../widgets/note_list.dart';
 import '../widgets/search_field.dart';
 import'package:firebase_auth/firebase_auth.dart';
-import'package:note_app/auth.dart';
+import'package:note_app/sevices/auth.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -15,7 +15,6 @@ class MainPage extends StatefulWidget {
   @override
   State<MainPage> createState() => _MainPageState();
 }
-
 
 class _MainPageState extends State<MainPage> {
   final List<String> dropdownOptions = ["Data modified", "Date created"];
