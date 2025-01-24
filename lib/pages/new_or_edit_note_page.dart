@@ -5,13 +5,16 @@ import 'package:note_app/widgets/note_icon_button.dart';
 import 'package:note_app/widgets/note_icon_button_outlined.dart';
 
 class NewOrEditNotePage extends StatefulWidget {
-  const NewOrEditNotePage({super.key});
+  const NewOrEditNotePage({super.key, required this.isNewNote});
+
+  final bool isNewNote;
 
   @override
   State<NewOrEditNotePage> createState() => _NewOrEditNotePageState();
 }
 
 class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +28,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
             },
           ),
         ),
-        title: Text("New Note"),
+        title: Text(widget.isNewNote ? "New Note" : "Edit Note"),
         actions: [
           NoteIconButtonOutlined(
             icon: FontAwesomeIcons.pen,
@@ -46,42 +49,44 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                 hintStyle: TextStyle(color: gray300),
                 border: InputBorder.none),
           ),
-          Row(
-            children: [
-              Expanded(
-                  flex: 3,
-                  child: Text(
-                    "Last Modified",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, color: gray500),
-                  )),
-              Expanded(
-                flex: 5,
-                child: Text(
-                  "24 Jan 2025, 06:35 PM",
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                  flex: 3,
-                  child: Text(
-                    "Created",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, color: gray500),
-                  )),
-              Expanded(
+          if (widget.isNewNote) ...[
+            Row(
+              children: [
+                Expanded(
+                    flex: 3,
+                    child: Text(
+                      "Last Modified",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: gray500),
+                    )),
+                Expanded(
                   flex: 5,
                   child: Text(
                     "24 Jan 2025, 06:35 PM",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-            ],
-          ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                    flex: 3,
+                    child: Text(
+                      "Created",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: gray500),
+                    )),
+                Expanded(
+                    flex: 5,
+                    child: Text(
+                      "24 Jan 2025, 06:35 PM",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+              ],
+            ),
+          ],
           Row(
             children: [
               Expanded(
@@ -110,10 +115,12 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                   )),
             ],
           ),
-
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Divider(color: gray700,thickness: 2,),
+            child: Divider(
+              color: gray700,
+              thickness: 2,
+            ),
           ),
           TextField(
             decoration: InputDecoration(

@@ -36,7 +36,7 @@ class _MainPageState extends State<MainPage> {
       floatingActionButton: NoteFab(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => NewOrEditNotePage()));
+              MaterialPageRoute(builder: (context) => NewOrEditNotePage(isNewNote: true,)));
         },
       ),
       body: Padding(
