@@ -6,6 +6,7 @@ import '../widgets/note_fab.dart';
 
 import '../core/constants.dart';
 import '../widgets/note_grid.dart';
+import '../widgets/note_icon_button.dart';
 import '../widgets/note_list.dart';
 import '../widgets/search_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,23 +58,16 @@ class _MainPageState extends State<MainPage> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 children: [
-                  IconButton(
+                  NoteIconButton(
+                    icon: isDescending
+                        ? FontAwesomeIcons.arrowDown
+                        : FontAwesomeIcons.arrowUp,
                     onPressed: () {
                       setState(() {
                         isDescending = !isDescending;
                       });
                     },
-                    icon: FaIcon(isDescending
-                        ? FontAwesomeIcons.arrowDown
-                        : FontAwesomeIcons.arrowUp),
-                    padding: EdgeInsets.zero,
-                    visualDensity: VisualDensity.compact,
-                    constraints: BoxConstraints(),
-                    style: IconButton.styleFrom(
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    iconSize: 18,
-                    color: gray700,
+                    size: 18,
                   ),
                   SizedBox(
                     width: 16,
@@ -115,24 +109,16 @@ class _MainPageState extends State<MainPage> {
                         });
                       }),
                   Spacer(),
-                  IconButton(
+                  NoteIconButton(
+                    icon:
+                        isGrid ? FontAwesomeIcons.table : FontAwesomeIcons.bars,
                     onPressed: () {
                       setState(() {
                         isGrid = !isGrid;
                       });
                     },
-                    icon: FaIcon(isGrid
-                        ? FontAwesomeIcons.table
-                        : FontAwesomeIcons.bars),
-                    padding: EdgeInsets.zero,
-                    visualDensity: VisualDensity.compact,
-                    constraints: BoxConstraints(),
-                    style: IconButton.styleFrom(
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    iconSize: 18,
-                    color: gray700,
-                  )
+                    size: 18,
+                  ),
                 ],
               ),
             ),
