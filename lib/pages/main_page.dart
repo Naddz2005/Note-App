@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:note_app/pages/new_or_edit_note_page.dart';
+import 'package:note_app/widgets/note_icon_button_outlined.dart';
 import '../widgets/note_fab.dart';
 
 import '../core/constants.dart';
@@ -26,20 +28,16 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text("Note App"),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: FaIcon(FontAwesomeIcons.rightFromBracket),
-            style: IconButton.styleFrom(
-              foregroundColor: white,
-              backgroundColor: primary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  side: BorderSide(color: black)),
-            ),
-          )
+          NoteIconButtonOutlined(
+              icon: FontAwesomeIcons.rightFromBracket, onPressed: () {})
         ],
       ),
-      floatingActionButton: NoteFab(),
+      floatingActionButton: NoteFab(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NewOrEditNotePage()));
+        },
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -84,21 +82,20 @@ class _MainPageState extends State<MainPage> {
                       isDense: true,
                       borderRadius: BorderRadius.circular(16),
                       items: dropdownOptions
-                          .map((e) =>
-                          DropdownMenuItem(
-                            value: e,
-                            child: Row(
-                              children: [
-                                Text(e),
-                                if (e == dropdownValue) ...[
-                                  SizedBox(
-                                    width: 8,
-                                  ),
-                                  Icon(Icons.check),
-                                ]
-                              ],
-                            ),
-                          ))
+                          .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Row(
+                                  children: [
+                                    Text(e),
+                                    if (e == dropdownValue) ...[
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Icon(Icons.check),
+                                    ]
+                                  ],
+                                ),
+                              ))
                           .toList(),
                       selectedItemBuilder: (context) =>
                           dropdownOptions.map((e) => Text(e)).toList(),
