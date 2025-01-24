@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:note_app/pages/new_or_edit_note_page.dart';
+import 'package:note_app/widgets/note_icon_button.dart';
 import 'package:note_app/widgets/note_icon_button_outlined.dart';
 import '../widgets/note_fab.dart';
 
@@ -47,23 +48,16 @@ class _MainPageState extends State<MainPage> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 children: [
-                  IconButton(
+                  NoteIconButton(
+                    icon: isDescending
+                        ? FontAwesomeIcons.arrowDown
+                        : FontAwesomeIcons.arrowUp,
                     onPressed: () {
                       setState(() {
                         isDescending = !isDescending;
                       });
                     },
-                    icon: FaIcon(isDescending
-                        ? FontAwesomeIcons.arrowDown
-                        : FontAwesomeIcons.arrowUp),
-                    padding: EdgeInsets.zero,
-                    visualDensity: VisualDensity.compact,
-                    constraints: BoxConstraints(),
-                    style: IconButton.styleFrom(
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    iconSize: 18,
-                    color: gray700,
+                    size: 18,
                   ),
                   SizedBox(
                     width: 16,
@@ -105,24 +99,16 @@ class _MainPageState extends State<MainPage> {
                         });
                       }),
                   Spacer(),
-                  IconButton(
+                  NoteIconButton(
+                    icon:
+                        isGrid ? FontAwesomeIcons.table : FontAwesomeIcons.bars,
                     onPressed: () {
                       setState(() {
                         isGrid = !isGrid;
                       });
                     },
-                    icon: FaIcon(isGrid
-                        ? FontAwesomeIcons.table
-                        : FontAwesomeIcons.bars),
-                    padding: EdgeInsets.zero,
-                    visualDensity: VisualDensity.compact,
-                    constraints: BoxConstraints(),
-                    style: IconButton.styleFrom(
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    iconSize: 18,
-                    color: gray700,
-                  )
+                    size: 18,
+                  ),
                 ],
               ),
             ),
