@@ -14,6 +14,30 @@ class NewOrEditNotePage extends StatefulWidget {
 }
 
 class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
+  late final FocusNode focusNode;
+  late bool readOnly;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    focusNode = FocusNode();
+
+    if (widget.isNewNote) {
+      focusNode.requestFocus();
+      readOnly = false;
+    } else {
+      readOnly = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +48,24 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
           child: NoteIconButtonOutlined(
             icon: FontAwesomeIcons.chevronLeft,
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.maybePop(context);
             },
           ),
         ),
         title: Text(widget.isNewNote ? "New Note" : "Edit Note"),
         actions: [
           NoteIconButtonOutlined(
-            icon: FontAwesomeIcons.pen,
-            onPressed: () {},
+            icon: readOnly ? FontAwesomeIcons.pen : FontAwesomeIcons.bookOpen,
+            onPressed: () {
+              setState(() {
+                readOnly = !readOnly;
+                if (readOnly) {
+                  FocusScope.of(context).unfocus();
+                } else {
+                  focusNode.requestFocus();
+                }
+              });
+            },
           ),
           NoteIconButtonOutlined(
             icon: FontAwesomeIcons.check,
@@ -63,6 +96,8 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                   flex: 5,
                   child: Text(
                     "24 Jan 2025, 06:35 PM",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, color: gray900),
                   ),
                 ),
               ],
@@ -81,8 +116,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                     child: Text(
                       "24 Jan 2025, 06:35 PM",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                          fontWeight: FontWeight.bold, color: gray900),
                     )),
               ],
             ),
@@ -110,7 +144,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                   child: Text(
                     "No tags added",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.bold, color: gray900
                     ),
                   )),
             ],
@@ -123,9 +157,13 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
             ),
           ),
           TextField(
+            style: TextStyle(fontWeight: FontWeight.bold),
             decoration: InputDecoration(
-              hintText: "Note here...",
-            ),
+                hintText: "Note here...",
+                hintStyle: TextStyle(color: gray300),
+                border: InputBorder.none),
+            focusNode: focusNode,
+            readOnly: readOnly,
           )
         ],
       ),
