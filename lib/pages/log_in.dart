@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:note_app/core/constants.dart';
 import 'package:note_app/sevices/auth.dart';
+
 class LogInPage extends StatefulWidget {
   @override
   _LogInPageState createState() => _LogInPageState();
@@ -10,6 +12,8 @@ class _LogInPageState extends State<LogInPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _auth = Auth();
+
+  bool _obscureText = true; // Trạng thái ẩn mật khẩu
 
   String _errorMessage = '';
 
@@ -31,11 +35,10 @@ class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[50],
       appBar: AppBar(
-        title: Text("Log In"),
-        backgroundColor: Colors.deepOrange,
-        titleTextStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+        title: Text(
+          "Log In",
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -56,7 +59,7 @@ class _LogInPageState extends State<LogInPage> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.deepOrange,
+                        color: primary,
                       ),
                     ),
                     SizedBox(height: 20),
@@ -70,19 +73,30 @@ class _LogInPageState extends State<LogInPage> {
                     SizedBox(height: 16),
                     TextField(
                       controller: _passwordController,
-                      obscureText: true,
+                      obscureText: _obscureText,
                       decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: OutlineInputBorder(),
-                      ),
+                          labelText: 'Password',
+                          border: OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                              icon: Icon(_obscureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility))),
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _logIn,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrange,
+                        backgroundColor: primary,
                       ),
-                      child: Text('Log In'),
+                      child: Text(
+                        'Log In',
+                        style: TextStyle(color: white),
+                      ),
                     ),
                     if (_errorMessage.isNotEmpty)
                       Padding(
@@ -98,7 +112,7 @@ class _LogInPageState extends State<LogInPage> {
                       },
                       child: Text(
                         "Don't have an account? Sign Up",
-                        style: TextStyle(color: Colors.deepOrange),
+                        style: TextStyle(color: black),
                       ),
                     ),
                   ],

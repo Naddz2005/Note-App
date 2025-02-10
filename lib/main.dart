@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:note_app/change_notifiers/notes_provider.dart';
 import 'package:note_app/core/constants.dart';
 import 'package:note_app/pages/log_in.dart';
 import 'package:note_app/pages/main_page.dart';
 import 'package:note_app/pages/sign_up.dart';
-
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,29 +19,33 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        fontFamily: 'Poppins',
-        scaffoldBackgroundColor: background,
-        appBarTheme: Theme.of(context).appBarTheme.copyWith(
-              backgroundColor: Colors.transparent,
-              titleTextStyle: TextStyle(
-                color: primary,
-                fontFamily: 'Fredoka',
-                fontSize: 32,
-                fontWeight: FontWeight.w600
+    return ChangeNotifierProvider(
+      create: (context) => NotesProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          fontFamily: 'Poppins',
+          scaffoldBackgroundColor: background,
+          appBarTheme: Theme.of(context).appBarTheme.copyWith(
+                backgroundColor: Colors.transparent,
+                titleTextStyle: TextStyle(
+                    color: primary,
+                    fontFamily: 'Fredoka',
+                    fontSize: 32,
+                    fontWeight: FontWeight.w600),
               ),
-            ),
+        ),
+        initialRoute: '/login',
+        // Trang đầu tiên khi ứng dụng chạy
+        routes: {
+          '/login': (context) => LogInPage(), // Route trang đăng nhập
+          '/signup': (context) => SignUpPage(), // Route trang đăng ký
+          '/main': (context) => MainPage(), // Route trang MainPage
+        },
       ),
-      initialRoute: '/login', // Trang đầu tiên khi ứng dụng chạy
-      routes: {
-        '/login': (context) => LogInPage(), // Route trang đăng nhập
-        '/signup': (context) => SignUpPage(), // Route trang đăng ký
-        '/main': (context) => MainPage(), // Route trang MainPage
-      },
     );
   }
 }
