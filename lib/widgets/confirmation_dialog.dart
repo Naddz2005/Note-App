@@ -32,11 +32,11 @@ class ConfirmationDialog extends StatelessWidget {
               NoteButton(
                 onPressed: () => Navigator.pop(context, false),
                 isOutlined: true,
-                child: const Text('No'),
+                child: const Text('Không'),
               ),
               const SizedBox(width: 8),
               NoteButton(
-                child: const Text('Yes'),
+                child: const Text('Có'),
                 onPressed: () => Navigator.pop(context, true),
               ),
             ],

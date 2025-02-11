@@ -20,7 +20,7 @@ class NoNotes extends StatelessWidget {
             height: 32,
           ),
           Text(
-            "Ban khong co ghi chu nao!\nBat dau bang cach nhan nut duoi!",
+            "Bạn không có ghi chú nào!\nBắt đầu bằng cách nhấn nút cộng!",
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

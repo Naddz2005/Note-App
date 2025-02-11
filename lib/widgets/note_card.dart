@@ -59,7 +59,7 @@ class NoteCard extends StatelessWidget {
                     3,
                     (index) => Container(
                           child: Text(
-                            "First chip",
+                            "Bla bla",
                             style: TextStyle(fontSize: 12, color: gray700),
                           ),
                           decoration: BoxDecoration(
@@ -106,7 +106,7 @@ class NoteCard extends StatelessWidget {
                   onLongPress: () async {
                     final bool shouldDelete = await showConfirmationDialog(
                         context: context,
-                        title: "Ban co muon xoa ghi chu khong?") ??
+                        title: "Bạn có muốn xoá ghi chú không?") ??
                         false;
                     if (shouldDelete) {
                       databaseReference.child(note.id).remove();

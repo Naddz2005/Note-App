@@ -37,7 +37,7 @@ class _LogInPageState extends State<LogInPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Log In",
+          "Đăng nhập",
         ),
       ),
       body: Center(
@@ -55,7 +55,7 @@ class _LogInPageState extends State<LogInPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Welcome Back",
+                      "Chào mừng trở lại",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -94,7 +94,7 @@ class _LogInPageState extends State<LogInPage> {
                         backgroundColor: primary,
                       ),
                       child: Text(
-                        'Log In',
+                        'Đăng nhập',
                         style: TextStyle(color: white),
                       ),
                     ),
@@ -111,7 +111,7 @@ class _LogInPageState extends State<LogInPage> {
                         Navigator.pushReplacementNamed(context, '/signup');
                       },
                       child: Text(
-                        "Don't have an account? Sign Up",
+                        "Bạn chưa có tài khoản? Đăng kí",
                         style: TextStyle(color: black),
                       ),
                     ),

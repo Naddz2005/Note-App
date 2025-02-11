@@ -26,7 +26,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final List<String> dropdownOptions = ["Data modified", "Date created"];
+  final List<String> dropdownOptions = ["Date modified", "Date created"];
   late String dropdownValue = dropdownOptions.first;
   bool isDescending = true;
   bool isGrid = true;
@@ -53,7 +53,7 @@ class _MainPageState extends State<MainPage> {
             onPressed: () async {
               final bool shouldSignout = await showConfirmationDialog(
                       context: context,
-                      title: "Ban co muon dang xuat khong?") ??
+                      title: "Bạn có muốn đăng xuất không?") ??
                   false;
               if (shouldSignout) _signOut(context);
             },

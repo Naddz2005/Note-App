@@ -44,7 +44,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sign Up"),
+        title: Text("Đăng kí"),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -61,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Create a New Account",
+                      "Tạo tài khoản mới",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors
                                   .white) // Hiển thị loader khi đang đăng ký
                           : Text(
-                              'Sign Up',
+                              'Đăng kí',
                               style: TextStyle(color: white),
                             ),
                     ),
@@ -128,7 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         Navigator.pushReplacementNamed(context, '/login');
                       },
                       child: Text(
-                        "Already have an account? Log In",
+                        "Đã có tài khoản? Đăng nhập",
                         style: TextStyle(color: black),
                       ),
                     ),
