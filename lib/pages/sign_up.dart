@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:note_app/core/constants.dart';
@@ -23,12 +25,38 @@ class _SignUpPageState extends State<SignUpPage> {
     });
 
     try {
-      await _auth.createUserWithEmailAndPassword(
+      // Đăng ký tài khoản và lấy UserCredential
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // Chuyển hướng tới trang chính sau khi đăng ký thành công
-      Navigator.pushReplacementNamed(context, '/main');
+
+      // Lấy user mới từ UserCredential
+      User? newUser = userCredential.user;
+
+      if (newUser != null) {
+        // Kết nối Firebase Database
+        final databaseReference = FirebaseDatabase.instanceFor(
+          app: Firebase.app(),
+          databaseURL:
+          "https://note-app-70fe2-default-rtdb.asia-southeast1.firebasedatabase.app",
+        ).ref("Note_App");
+
+        // Thêm user vào database
+        DatabaseReference userRef = databaseReference.child(newUser.uid);
+        await userRef.set({
+          "notes": {}, // Node rỗng để chứa ghi chú
+          "email": newUser.email,  // Lưu email vào database
+          "createdAt": DateTime.now().toIso8601String(), // Thời gian tạo tài khoản
+        });
+
+        print("User registered and added to database: ${newUser.uid}");
+
+        // Chuyển hướng sau khi đăng ký thành công
+        Navigator.pushReplacementNamed(context, '/main');
+      } else {
+        throw Exception("Không thể lấy thông tin người dùng sau khi đăng ký.");
+      }
     } catch (e) {
       setState(() {
         _errorMessage = e.toString(); // Hiển thị lỗi nếu có

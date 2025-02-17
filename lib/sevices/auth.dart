@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth;
+
   Auth() : _firebaseAuth = FirebaseAuth.instance;
 
   User? get currentUser => _firebaseAuth.currentUser;
@@ -33,7 +36,7 @@ class Auth {
     }
   }
 
-  Future<void> createUserWithEmailAndPassword({
+  Future<UserCredential> createUserWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
@@ -44,13 +47,15 @@ class Auth {
       if (password.length < 6) {
         throw Exception('Mật khẩu phải dài ít nhất 6 ký tự.');
       }
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+
+      return await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
     } on FirebaseAuthException catch (e) {
       throw Exception('${e.message}');
     }
   }
-
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
@@ -58,5 +63,17 @@ class Auth {
   bool _isValidEmail(String email) {
     final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
     return emailRegex.hasMatch(email);
+  }
+}
+
+Future<String?> getUserUID() async {
+  await Future.delayed(Duration(seconds: 1)); // Chờ 1 giây (tuỳ chọn)
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    print("User UID: ${user.uid}");
+    return user.uid; // Trả về UID dưới dạng String
+  } else {
+    print("No user is signed in.");
+    return null; // Trả về null nếu không có người dùng
   }
 }

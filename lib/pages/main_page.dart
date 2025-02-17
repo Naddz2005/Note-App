@@ -30,6 +30,7 @@ class _MainPageState extends State<MainPage> {
   late String dropdownValue = dropdownOptions.first;
   bool isDescending = true;
   bool isGrid = true;
+  bool isDateCreated = true;
 
   void _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -39,11 +40,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final databaseReference = FirebaseDatabase.instanceFor(
-      app: Firebase.app(),
-      databaseURL:
-          "https://note-app-70fe2-default-rtdb.asia-southeast1.firebasedatabase.app",
-    ).ref("Note_App");
     return Scaffold(
       appBar: AppBar(
         title: Text("Note App"),
@@ -125,8 +121,11 @@ class _MainPageState extends State<MainPage> {
                           onChanged: (newValue) {
                             setState(() {
                               dropdownValue = newValue!;
+                              isDateCreated =!isDateCreated;
                             });
-                          }),
+
+                          }
+                          ),
                       Spacer(),
                       NoteIconButton(
                         icon: isGrid
@@ -143,7 +142,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 Expanded(
-                  child: isGrid ? Note_Grid() : NotesList(),
+                  child: isGrid ? Note_Grid(isDateCreated: isDateCreated,) : NotesList(isDateCreated: isDateCreated,),
                 )
               ],
             ),

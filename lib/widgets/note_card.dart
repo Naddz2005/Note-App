@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -10,24 +11,32 @@ import '../models/note.dart';
 class NoteCard extends StatelessWidget {
   const NoteCard({
     super.key,
-    required this.isInGrid, required this.note,
+    required this.isInGrid,
+    required this.note,
+    required this.isDateCreated,
   });
+
   final Note note;
   final bool isInGrid;
+  final bool isDateCreated;
 
   @override
   Widget build(BuildContext context) {
+    final User? user = FirebaseAuth.instance.currentUser;
     final databaseReference = FirebaseDatabase.instanceFor(
       app: Firebase.app(),
       databaseURL:
-      "https://note-app-70fe2-default-rtdb.asia-southeast1.firebasedatabase.app",
-    ).ref("Note_App");
+          "https://note-app-70fe2-default-rtdb.asia-southeast1.firebasedatabase.app",
+    ).ref("Note_App/${user!.uid}");
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => NewOrEditNotePage(isNewNote: false, id: note.id,)));
+                builder: (context) => NewOrEditNotePage(
+                      isNewNote: false,
+                      id: note.id,
+                    )));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -56,10 +65,12 @@ class NoteCard extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List.generate(
-                    3,
+                    note.tags.toString().split(", ").length,
                     (index) => Container(
                           child: Text(
-                            "Bla bla",
+                            (note.tags != null && note.tags!.isNotEmpty)
+                                ? note.tags.toString()
+                                : "No tags added",
                             style: TextStyle(fontSize: 12, color: gray700),
                           ),
                           decoration: BoxDecoration(
@@ -90,11 +101,11 @@ class NoteCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  note.dateCreated.toString(),
+                  (isDateCreated)
+                      ? note.dateCreated.toString()
+                      : note.lastModified.toString(),
                   style: TextStyle(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w600,
-                      color: gray500),
+                      fontSize: 9, fontWeight: FontWeight.w600, color: gray500),
                 ),
                 Spacer(),
                 GestureDetector(
@@ -105,15 +116,14 @@ class NoteCard extends StatelessWidget {
                   ),
                   onLongPress: () async {
                     final bool shouldDelete = await showConfirmationDialog(
-                        context: context,
-                        title: "Bạn có muốn xoá ghi chú không?") ??
+                            context: context,
+                            title: "Bạn có muốn xoá ghi chú không?") ??
                         false;
                     if (shouldDelete) {
                       databaseReference.child(note.id).remove();
                     }
                   },
                 ),
-
               ],
             )
           ],

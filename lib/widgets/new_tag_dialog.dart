@@ -18,15 +18,12 @@ class NewTagDialog extends StatefulWidget {
 class _NewTagDialogState extends State<NewTagDialog> {
   late final TextEditingController tagController;
 
-  late final GlobalKey<FormFieldState> tagKey;
-
   @override
   void initState() {
     super.initState();
 
     tagController = TextEditingController(text: widget.tag);
 
-    tagKey = GlobalKey();
   }
 
   @override
@@ -39,7 +36,7 @@ class _NewTagDialogState extends State<NewTagDialog> {
   Widget build(BuildContext context) {
     return DialogCard(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min, //Kích thước vừa với nội dung bên trong
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Text(
@@ -52,10 +49,9 @@ class _NewTagDialogState extends State<NewTagDialog> {
           ),
           const SizedBox(height: 24),
           NoteFormField(
-            key: tagKey,
-            controller: tagController,
-            hintText: 'Add tag (< 16 characters)',
-            validator: (value) {
+            controller: tagController, // Điều khiển băn bản nhập vào
+            hintText: 'Add tag (< 16 characters)', //Gợi ý nhập liệu
+            validator: (value) { // Hàm kiểm tra giá trị nhập vào
               if (value!.trim().isEmpty) {
                 return 'No tags added';
               } else if (value.trim().length > 16) {
@@ -63,18 +59,16 @@ class _NewTagDialogState extends State<NewTagDialog> {
               }
               return null;
             },
-            onChanged: (newValue) {
-              tagKey.currentState?.validate();
-            },
-            autofocus: true,
+            autofocus: true, // Tự động focus khi mở form
           ),
           const SizedBox(height: 24),
           NoteButton(
             child: const Text('Add'),
             onPressed: () {
-              if (tagKey.currentState?.validate() ?? false) {
+              if (tagController.toString().isEmpty || tagController.toString().trim() == "")
+                  Navigator.pop(context, null);
+              else
                 Navigator.pop(context, tagController.text.trim());
-              }
             },
           ),
         ],
