@@ -1,13 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth;
 
-  Auth() : _firebaseAuth = FirebaseAuth.instance;
-
-  User? get currentUser => _firebaseAuth.currentUser;
+  Auth() : _firebaseAuth = FirebaseAuth.instance;// _firebaseAuth là instance của FirebaseAuth, giúp gọi các API Firebase dễ dàng.
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
@@ -63,17 +59,5 @@ class Auth {
   bool _isValidEmail(String email) {
     final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
     return emailRegex.hasMatch(email);
-  }
-}
-
-Future<String?> getUserUID() async {
-  await Future.delayed(Duration(seconds: 1)); // Chờ 1 giây (tuỳ chọn)
-  User? user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    print("User UID: ${user.uid}");
-    return user.uid; // Trả về UID dưới dạng String
-  } else {
-    print("No user is signed in.");
-    return null; // Trả về null nếu không có người dùng
   }
 }

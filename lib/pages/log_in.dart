@@ -9,13 +9,15 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
+  // Quản lí input của email và password
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _auth = Auth();
+
+  final _auth = Auth();  // Gọi class Auth() chứ logic firebase
 
   bool _obscureText = true; // Trạng thái ẩn mật khẩu
 
-  String _errorMessage = '';
+  String _errorMessage = ''; // Lưu thông báo lỗi khi đăng nhập thất bại
 
   Future<void> _logIn() async {
     try {
@@ -41,14 +43,14 @@ class _LogInPageState extends State<LogInPage> {
         ),
       ),
       body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
+        child: SingleChildScrollView( // Dùng SingleChildScrollView để tránh lỗi tràn màn hình khi bàn phím xuất hiện.
+        child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              elevation: 4,
+              elevation: 4, // Điều này kiểm soát kích thước của bóng đổ bên dưới thẻ.
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(

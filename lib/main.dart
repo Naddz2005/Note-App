@@ -8,23 +8,23 @@ import 'package:note_app/pages/sign_up.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //Khởi tạo kết nối firebase
+  WidgetsFlutterBinding.ensureInitialized(); // Flutter cần khởi tạo binding trước khi sử dụng các API phụ thuộc vào engine.
+  await Firebase.initializeApp(); // Giúp kết nối ứng dụng với Firebase. Đảm bảo Firebase được khởi tạo trước khi chạy ứng dụng
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => NotesProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
+      create: (context) => NotesProvider(), // Class quản lí dữ liệu ghi chú
+      child: MaterialApp( // Cấu hình ứng dụng
+        debugShowCheckedModeBanner: false, // Ẩn cữ debug
+        title: 'Flutter Demo', // Tên ứng dụng
+        theme: ThemeData( // Cấu hình giao diện
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
           fontFamily: 'Poppins',
@@ -38,9 +38,8 @@ class MyApp extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               ),
         ),
-        initialRoute: '/login',
-        // Trang đầu tiên khi ứng dụng chạy
-        routes: {
+        initialRoute: '/login', // Màn hình đầu tiên khi chạy app
+        routes: { // Danh sách đường dẫn
           '/login': (context) => LogInPage(), // Route trang đăng nhập
           '/signup': (context) => SignUpPage(), // Route trang đăng ký
           '/main': (context) => MainPage(), // Route trang MainPage

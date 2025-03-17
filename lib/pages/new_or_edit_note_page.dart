@@ -64,8 +64,8 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
   void _loadNoteData() async {
     DatabaseEvent event = await databaseReference
         .child("${user!.uid}/notes/${widget.id}")
-        .once();
-    DataSnapshot snapshot = event.snapshot;
+        .once();  //sự kiện chứa dữ liệu từ Firebase khi có thay đổi trong cơ sở dữ liệu
+    DataSnapshot snapshot = event.snapshot; //đối tượng chứa dữ liệu lấy được từ cơ sở dữ liệu.
 
     if (snapshot.value != null) {
       Map<String, dynamic> noteData =

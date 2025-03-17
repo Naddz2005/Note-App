@@ -1,13 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:note_app/change_notifiers/notes_provider.dart';
 import 'package:note_app/core/dialogs.dart';
 import 'package:note_app/pages/new_or_edit_note_page.dart';
 import 'package:note_app/widgets/note_icon_button_outlined.dart';
-import '../models/note.dart';
-import '../widgets/no_notes.dart';
 import '../widgets/note_fab.dart';
 import 'package:provider/provider.dart';
 import '../core/constants.dart';
@@ -16,7 +12,6 @@ import '../widgets/note_icon_button.dart';
 import '../widgets/note_list.dart';
 import '../widgets/search_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:note_app/sevices/auth.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -30,7 +25,7 @@ class _MainPageState extends State<MainPage> {
   late String dropdownValue = dropdownOptions.first;
   bool isDescending = true;
   bool isGrid = true;
-  bool isDateCreated = true;
+  bool isDateCreated = false;
 
   void _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -121,11 +116,9 @@ class _MainPageState extends State<MainPage> {
                           onChanged: (newValue) {
                             setState(() {
                               dropdownValue = newValue!;
-                              isDateCreated =!isDateCreated;
+                              isDateCreated = !isDateCreated;
                             });
-
-                          }
-                          ),
+                          }),
                       Spacer(),
                       NoteIconButton(
                         icon: isGrid
@@ -142,7 +135,13 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 Expanded(
-                  child: isGrid ? Note_Grid(isDateCreated: isDateCreated,) : NotesList(isDateCreated: isDateCreated,),
+                  child: isGrid
+                      ? Note_Grid(
+                          isDateCreated: isDateCreated,
+                        )
+                      : NotesList(
+                          isDateCreated: isDateCreated,
+                        ),
                 )
               ],
             ),

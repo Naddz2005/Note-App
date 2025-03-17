@@ -27,7 +27,7 @@ class NoteCard extends StatelessWidget {
       app: Firebase.app(),
       databaseURL:
           "https://note-app-70fe2-default-rtdb.asia-southeast1.firebasedatabase.app",
-    ).ref("Note_App/${user!.uid}");
+    ).ref("Note_App/${user!.uid}/notes");
     return GestureDetector(
       onTap: () {
         Navigator.push(
