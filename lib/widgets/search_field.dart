@@ -3,14 +3,26 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../core/constants.dart';
 
-class SearchField extends StatelessWidget {
+class SearchField extends StatefulWidget {
+  final Function(String) onSearch;
+
   const SearchField({
     super.key,
+    required this.onSearch,
   });
+
+  @override
+  State<SearchField> createState() => _SearchFieldState();
+}
+
+class _SearchFieldState extends State<SearchField> {
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: searchController,
+      onChanged: widget.onSearch,
       decoration: InputDecoration(
           hintText: "Search notes...",
           hintStyle: TextStyle(

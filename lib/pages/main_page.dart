@@ -27,6 +27,9 @@ class _MainPageState extends State<MainPage> {
   bool isGrid = true;
   bool isDateCreated = false;
 
+  final TextEditingController searchController = TextEditingController();
+  String searchQuery = "";
+
   void _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     // Chuyển hướng về trang login
@@ -63,7 +66,13 @@ class _MainPageState extends State<MainPage> {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                SearchField(),
+                SearchField(
+                  onSearch: (query) {
+                    setState(() {
+                      searchQuery = query.toLowerCase();
+                    });
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
@@ -136,11 +145,15 @@ class _MainPageState extends State<MainPage> {
                 ),
                 Expanded(
                   child: isGrid
-                      ? Note_Grid(
+                      ? NoteGrid(
                           isDateCreated: isDateCreated,
+                          isDescending: isDescending,
+                          searchQuery: searchQuery,
                         )
                       : NotesList(
                           isDateCreated: isDateCreated,
+                          isDescending: isDescending,
+                          searchQuery: searchQuery,
                         ),
                 )
               ],
