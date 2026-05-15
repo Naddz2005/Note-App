@@ -1,20 +1,43 @@
-Note_App (ứng dụng ghi chú thời gian thực sử dụng firebase realtime database).
-Công nghệ sử dụng:
-- Framework Flutter
-- Ngôn ngữ lập trình dart
-- Firebase: Realtime Database, Authentication, Performance
-- Các thư viện sử dụng: firebase_core, firebase_database, font_awesome_flutter, firebase_auth, provider, intl
-- Font chữ: Poppins, Fredoka
-Cách sử dụng:
-- Nếu bạn ở gần tôi, chỉ cần bật chế độ developer trên điện thoại, bật gỡ lỗi trên USB, kết nối với máy tính của mình của dây sạc điện thoại, tôi sẽ chạy ctr để android studio truyền file apk cho bạn, nếu không thì: 
-- Tải git
-- Tải flutter sdk https://docs.flutter.dev/install
-- Tải Android Studio
-- Mở cmd trong thư mục lưu trữ của mình
-- Gõ git clone https://github.com/Naddz2005/Note-App
-- Mở Android Studio
-- Tải plugin Flutter
-- Mở thư mục vừa clone về
-- Ở cmd, gõ flutter pub get (để tải các thư viện trong file pubspec.yaml)
-- Gõ flutter build và flutter run
-- Chúc mọi người chạy thành công
+# Note_App
+
+Ứng dụng ghi chú thời gian thực sử dụng Firebase Realtime Database.
+
+## Công nghệ sử dụng
+- Flutter
+- Dart
+- Firebase Realtime Database
+- Firebase Authentication
+- Firebase Performance
+
+## Thư viện sử dụng
+- firebase_core
+- firebase_database
+- firebase_auth
+- provider
+- intl
+- font_awesome_flutter
+
+## Font chữ
+- Poppins
+- Fredoka
+
+## Cách sử dụng
+
+### Cách 1
+Nếu bạn ở gần tôi:
+- Bật Developer Mode trên điện thoại
+- Bật USB Debugging
+- Kết nối điện thoại với máy tính
+
+Tôi sẽ build APK cho bạn.
+
+### Cách 2
+1. Tải Git
+2. Tải Flutter SDK  
+https://docs.flutter.dev/install
+3. Tải Android Studio
+4. Mở CMD trong thư mục muốn lưu project
+5. Gõ:
+
+```bash
+git clone https://github.com/Naddz2005/Note-App
