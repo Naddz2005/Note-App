@@ -1,109 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../change_notifiers/settings_provider.dart';
 import '../core/constants.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
+
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool darkMode = false;
-  bool gridView = true;
-  bool notification = true;
-
-  @override
   Widget build(BuildContext context) {
+
+    final settingsProvider =
+    Provider.of<SettingsProvider>(context);
+
     return Scaffold(
-      backgroundColor: background,
+
       appBar: AppBar(
-        backgroundColor: background,
-        elevation: 0,
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: black),
-        title: const Text(
-          'Settings',
-          style: TextStyle(
-            color: black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const Text("Settings"),
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(20),
+
         child: Column(
           children: [
-            _buildSwitchTile(
+
+            buildSwitchTile(
+              title: "Dark Mode",
+              subtitle: "Enable dark theme",
+
+              value:
+              settingsProvider.isDarkMode,
+
+              onChanged: (value) {
+
+                settingsProvider
+                    .toggleDarkMode(value);
+              },
+
               icon: Icons.dark_mode,
-              title: 'Dark Mode',
-              value: darkMode,
-              onChanged: (value) {
-                setState(() {
-                  darkMode = value;
-                });
-              },
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
-            _buildSwitchTile(
+            buildSwitchTile(
+              title: "Grid View",
+              subtitle: "Display notes in grid",
+
+              value:
+              settingsProvider.isGridView,
+
+              onChanged: (value) {
+
+                settingsProvider
+                    .toggleGridView(value);
+              },
+
               icon: Icons.grid_view,
-              title: 'Grid View',
-              value: gridView,
-              onChanged: (value) {
-                setState(() {
-                  gridView = value;
-                });
-              },
-            ),
-
-            const SizedBox(height: 16),
-
-            _buildSwitchTile(
-              icon: Icons.notifications,
-              title: 'Notifications',
-              value: notification,
-              onChanged: (value) {
-                setState(() {
-                  notification = value;
-                });
-              },
-            ),
-
-            const SizedBox(height: 16),
-
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: primary,
-                  width: 2,
-                ),
-              ),
-              child: const Row(
-                children: [
-                  Icon(
-                    Icons.info,
-                    color: primary,
-                  ),
-
-                  SizedBox(width: 15),
-
-                  Expanded(
-                    child: Text(
-                      'Note App v1.0\nMade with Flutter ❤️',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ],
         ),
@@ -111,27 +65,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSwitchTile({
-    required IconData icon,
+  Widget buildSwitchTile({
     required String title,
+    required String subtitle,
     required bool value,
     required Function(bool) onChanged,
+    required IconData icon,
   }) {
+
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
+
+      padding: const EdgeInsets.all(16),
+
       decoration: BoxDecoration(
         color: white,
-        borderRadius: BorderRadius.circular(20),
+
+        borderRadius:
+        BorderRadius.circular(20),
+
         border: Border.all(
           color: primary,
           width: 2,
         ),
       ),
+
       child: Row(
         children: [
+
           Icon(
             icon,
             color: primary,
@@ -140,18 +100,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(width: 15),
 
           Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+
+              children: [
+
+                Text(
+                  title,
+
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                Text(
+                  subtitle,
+
+                  style: const TextStyle(
+                    color: gray700,
+                  ),
+                ),
+              ],
             ),
           ),
 
           Switch(
-            activeColor: primary,
             value: value,
+            activeColor: primary,
             onChanged: onChanged,
           ),
         ],

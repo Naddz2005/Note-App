@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../core/constants.dart';
-import '../sevices/auth.dart';
 import 'setting_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -205,18 +204,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SettingsScreen(),
                   ),
                 );
-              },
-            ),
-
-            const Spacer(),
-
-            buildButton(
-              icon: Icons.logout,
-              title: "Logout",
-              isLogout: true,
-
-              onTap: () async {
-                await Auth().signOut();
               },
             ),
           ],

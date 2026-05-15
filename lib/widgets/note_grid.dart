@@ -24,7 +24,7 @@ class NoteGrid extends StatelessWidget {
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      throw Exception("User is not logged in");
+      return const SizedBox.shrink();
     }
 
     late var databaseReference = FirebaseDatabase.instanceFor(

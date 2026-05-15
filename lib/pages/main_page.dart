@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:note_app/change_notifiers/notes_provider.dart';
-import 'package:note_app/core/dialogs.dart';
-import 'package:note_app/pages/new_or_edit_note_page.dart';
-import 'package:note_app/widgets/note_icon_button_outlined.dart';
-import '../widgets/note_fab.dart';
-import 'package:provider/provider.dart';
-import '../core/constants.dart';
-import '../widgets/note_grid.dart';
-import '../widgets/note_icon_button.dart';
-import '../widgets/note_list.dart';
-import '../widgets/search_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'profile_screen.dart';
+import 'package:provider/provider.dart';
+
+import 'package:note_app/change_notifiers/notes_provider.dart';
+import 'package:note_app/change_notifiers/settings_provider.dart';
+
+import 'package:note_app/core/constants.dart';
+import 'package:note_app/core/dialogs.dart';
+
+import 'package:note_app/pages/new_or_edit_note_page.dart';
+import 'package:note_app/pages/profile_screen.dart';
+
+import 'package:note_app/widgets/note_fab.dart';
+import 'package:note_app/widgets/note_grid.dart';
+import 'package:note_app/widgets/note_icon_button.dart';
+import 'package:note_app/widgets/note_icon_button_outlined.dart';
+import 'package:note_app/widgets/note_list.dart';
+import 'package:note_app/widgets/search_field.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -21,48 +27,79 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final List<String> dropdownOptions = ["Date modified", "Date created"];
+  final List<String> dropdownOptions = [
+    "Date modified",
+    "Date created"
+  ];
+
   late String dropdownValue = dropdownOptions.first;
+
   bool isDescending = true;
-  bool isGrid = true;
   bool isDateCreated = false;
 
-  final TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController =
+  TextEditingController();
+
   String searchQuery = "";
 
   void _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    // Chuyển hướng về trang login
-    Navigator.pushReplacementNamed(context, '/login');
+
+    if (!context.mounted) return;
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/login',
+          (route) => false,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final settingsProvider =
+    Provider.of<SettingsProvider>(context);
+
     return Scaffold(
+
       appBar: AppBar(
-        title: Text("Note App"),
+
+        title: const Text("Note App"),
+
         actions: [
+
           Padding(
             padding: const EdgeInsets.only(right: 8),
+
             child: Row(
               children: [
 
                 // PROFILE BUTTON
                 GestureDetector(
+
                   onTap: () {
+
                     Navigator.push(
                       context,
+
                       MaterialPageRoute(
-                        builder: (_) => const ProfileScreen(),
+                        builder: (_) =>
+                        const ProfileScreen(),
                       ),
                     );
                   },
+
                   child: Container(
+
                     width: 42,
                     height: 42,
+
                     decoration: BoxDecoration(
                       color: primary,
-                      borderRadius: BorderRadius.circular(14),
+
+                      borderRadius:
+                      BorderRadius.circular(14),
+
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
@@ -71,6 +108,7 @@ class _MainPageState extends State<MainPage> {
                         ),
                       ],
                     ),
+
                     child: const Icon(
                       Icons.person,
                       color: white,
@@ -83,12 +121,17 @@ class _MainPageState extends State<MainPage> {
 
                 // LOGOUT BUTTON
                 NoteIconButtonOutlined(
-                  icon: FontAwesomeIcons.rightFromBracket,
+
+                  icon:
+                  FontAwesomeIcons.rightFromBracket,
+
                   onPressed: () async {
+
                     final bool shouldSignout =
                         await showConfirmationDialog(
                           context: context,
-                          title: "Bạn có muốn đăng xuất không?",
+                          title:
+                          "Bạn có muốn đăng xuất không?",
                         ) ??
                             false;
 
@@ -102,108 +145,208 @@ class _MainPageState extends State<MainPage> {
           ),
         ],
       ),
-      floatingActionButton: NoteFab(onPressed: () {
-        Navigator.push(
+
+      floatingActionButton: NoteFab(
+
+        onPressed: () {
+
+          Navigator.push(
             context,
+
             MaterialPageRoute(
-                builder: (context) => NewOrEditNotePage(isNewNote: true)));
-      }),
+              builder: (context) =>
+              const NewOrEditNotePage(
+                isNewNote: true,
+              ),
+            ),
+          );
+        },
+      ),
+
       body: Consumer<NotesProvider>(
-        builder: (context, notesProvider, child) {
+
+        builder:
+            (context, notesProvider, child) {
+
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+
+            padding:
+            const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+
             child: Column(
               children: [
+
                 SearchField(
+
                   onSearch: (query) {
+
                     setState(() {
-                      searchQuery = query.toLowerCase();
+
+                      searchQuery =
+                          query.toLowerCase();
                     });
                   },
                 ),
+
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+
+                  padding:
+                  const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                  ),
+
                   child: Row(
                     children: [
+
+                      // SORT BUTTON
                       NoteIconButton(
+
                         icon: isDescending
                             ? FontAwesomeIcons.arrowDown
                             : FontAwesomeIcons.arrowUp,
+
                         onPressed: () {
+
                           setState(() {
-                            isDescending = !isDescending;
+
+                            isDescending =
+                            !isDescending;
                           });
                         },
+
                         size: 18,
                       ),
-                      SizedBox(
-                        width: 16,
-                      ),
+
+                      const SizedBox(width: 16),
+
+                      // DROPDOWN
                       DropdownButton<String>(
-                          value: dropdownValue,
-                          icon: Padding(
-                            padding: EdgeInsets.only(left: 16),
-                            child: FaIcon(
-                              FontAwesomeIcons.arrowDownWideShort,
-                              size: 18,
-                              color: gray700,
+
+                        value: dropdownValue,
+
+                        icon: Padding(
+                          padding:
+                          const EdgeInsets.only(
+                            left: 16,
+                          ),
+
+                          child: FaIcon(
+                            FontAwesomeIcons
+                                .arrowDownWideShort,
+
+                            size: 18,
+                            color: gray700,
+                          ),
+                        ),
+
+                        underline:
+                        const SizedBox.shrink(),
+
+                        isDense: true,
+
+                        borderRadius:
+                        BorderRadius.circular(16),
+
+                        items: dropdownOptions
+                            .map(
+                              (e) => DropdownMenuItem(
+
+                            value: e,
+
+                            child: Row(
+                              children: [
+
+                                Text(e),
+
+                                if (e ==
+                                    dropdownValue) ...[
+                                  const SizedBox(
+                                      width: 8),
+
+                                  const Icon(
+                                      Icons.check),
+                                ]
+                              ],
                             ),
                           ),
-                          underline: SizedBox.shrink(),
-                          isDense: true,
-                          borderRadius: BorderRadius.circular(16),
-                          items: dropdownOptions
-                              .map((e) => DropdownMenuItem(
-                                    value: e,
-                                    child: Row(
-                                      children: [
-                                        Text(e),
-                                        if (e == dropdownValue) ...[
-                                          SizedBox(
-                                            width: 8,
-                                          ),
-                                          Icon(Icons.check),
-                                        ]
-                                      ],
-                                    ),
-                                  ))
-                              .toList(),
-                          selectedItemBuilder: (context) =>
-                              dropdownOptions.map((e) => Text(e)).toList(),
-                          onChanged: (newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                              isDateCreated = !isDateCreated;
-                            });
-                          }),
-                      Spacer(),
-                      NoteIconButton(
-                        icon: isGrid
-                            ? FontAwesomeIcons.table
-                            : FontAwesomeIcons.bars,
-                        onPressed: () {
+                        )
+                            .toList(),
+
+                        selectedItemBuilder:
+                            (context) =>
+                            dropdownOptions
+                                .map((e) => Text(e))
+                                .toList(),
+
+                        onChanged: (newValue) {
+
                           setState(() {
-                            isGrid = !isGrid;
+
+                            dropdownValue =
+                            newValue!;
+
+                            isDateCreated =
+                            !isDateCreated;
                           });
                         },
+                      ),
+
+                      const Spacer(),
+
+                      // GRID / LIST BUTTON
+                      NoteIconButton(
+
+                        icon:
+                        settingsProvider.isGridView
+                            ? FontAwesomeIcons.table
+                            : FontAwesomeIcons.bars,
+
+                        onPressed: () {
+
+                          settingsProvider
+                              .toggleGridView(
+                            !settingsProvider
+                                .isGridView,
+                          );
+                        },
+
                         size: 18,
                       ),
                     ],
                   ),
                 ),
+
                 Expanded(
-                  child: isGrid
+
+                  child:
+                  settingsProvider.isGridView
+
                       ? NoteGrid(
-                          isDateCreated: isDateCreated,
-                          isDescending: isDescending,
-                          searchQuery: searchQuery,
-                        )
+
+                    isDateCreated:
+                    isDateCreated,
+
+                    isDescending:
+                    isDescending,
+
+                    searchQuery:
+                    searchQuery,
+                  )
+
                       : NotesList(
-                          isDateCreated: isDateCreated,
-                          isDescending: isDescending,
-                          searchQuery: searchQuery,
-                        ),
-                )
+
+                    isDateCreated:
+                    isDateCreated,
+
+                    isDescending:
+                    isDescending,
+
+                    searchQuery:
+                    searchQuery,
+                  ),
+                ),
               ],
             ),
           );
