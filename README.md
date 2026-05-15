@@ -1,4 +1,4 @@
-Note_App (ứng dụng ghi chú thời gian thực sử dụng firebase realtime database)
+Note_App (ứng dụng ghi chú thời gian thực sử dụng firebase realtime database).
 Công nghệ sử dụng:
 - Framework Flutter
 - Ngôn ngữ lập trình dart
