@@ -25,7 +25,7 @@ android {
         applicationId = "com.example.note_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdkVersion 23  // Đặt minSdkVersion thành 23 hoặc cao hơn
+        minSdkVersion flutter.minSdkVersion  // Đặt minSdkVersion thành 23 hoặc cao hơn
         targetSdkVersion 33
         versionCode = flutter.versionCode
         versionName = flutter.versionName

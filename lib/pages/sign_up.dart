@@ -13,6 +13,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _auth = Auth();
 
   bool _obscureText = true; // Trạng thái ẩn mật khẩu
@@ -45,9 +46,10 @@ class _SignUpPageState extends State<SignUpPage> {
         // Thêm user vào database
         DatabaseReference userRef = databaseReference.child(newUser.uid);
         await userRef.set({
-          "notes": {}, // Node rỗng để chứa ghi chú
-          "email": newUser.email,  // Lưu email vào database
-          "createdAt": DateTime.now().toIso8601String(), // Thời gian tạo tài khoản
+          "user_name": _usernameController.text.trim(),
+          "email": newUser.email,
+          "register_date": DateTime.now().toString(),
+          "notes": {},
         });
 
         print("User registered and added to database: ${newUser.uid}");
@@ -97,6 +99,22 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     SizedBox(height: 20),
+                    TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        labelText: 'Username',
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primary),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: primary),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
                     TextField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,

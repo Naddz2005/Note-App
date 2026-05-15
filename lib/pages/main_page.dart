@@ -12,7 +12,7 @@ import '../widgets/note_icon_button.dart';
 import '../widgets/note_list.dart';
 import '../widgets/search_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'profile_screen.dart';
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -42,16 +42,64 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text("Note App"),
         actions: [
-          NoteIconButtonOutlined(
-            icon: FontAwesomeIcons.rightFromBracket,
-            onPressed: () async {
-              final bool shouldSignout = await showConfirmationDialog(
-                      context: context,
-                      title: "Bạn có muốn đăng xuất không?") ??
-                  false;
-              if (shouldSignout) _signOut(context);
-            },
-          )
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Row(
+              children: [
+
+                // PROFILE BUTTON
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ProfileScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: primary,
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(3, 3),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.person,
+                      color: white,
+                      size: 22,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: 10),
+
+                // LOGOUT BUTTON
+                NoteIconButtonOutlined(
+                  icon: FontAwesomeIcons.rightFromBracket,
+                  onPressed: () async {
+                    final bool shouldSignout =
+                        await showConfirmationDialog(
+                          context: context,
+                          title: "Bạn có muốn đăng xuất không?",
+                        ) ??
+                            false;
+
+                    if (shouldSignout) {
+                      _signOut(context);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       floatingActionButton: NoteFab(onPressed: () {
